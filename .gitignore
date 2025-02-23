@@ -1,0 +1,48 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+.venv/
+
+# Flask instance and logs
+instance/
+*.log
+*.out
+*.err
+
+# Database
+*.sqlite3
+*.db
+
+# Migrations
+migrations/
+
+# Compiled static files
+*.scssc
+*.sassc
+*.css.map
+*.js.map
+
+# Cache files
+.cache/
+__pypackages__/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE and editor settings
+.vscode/
+*.swp
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
