@@ -1,8 +1,6 @@
-from server import db
 from flask_login import UserMixin
 from datetime import datetime
-
-
+from server import db
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     phone = db.Column(db.String(20), unique=True, nullable=False)
@@ -14,7 +12,6 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
-    
     posts = db.relationship("Post", backref="author", cascade="all, delete", lazy=True)
     comments = db.relationship("Comment", backref="user", cascade="all, delete", lazy=True)
 
@@ -25,7 +22,6 @@ class Category(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
-    
     posts = db.relationship("Post", backref="category", cascade="all, delete", lazy=True)
 
 
@@ -39,7 +35,6 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
 
-   
     comments = db.relationship("Comment", backref="post", cascade="all, delete", lazy=True)
 
 
@@ -47,6 +42,6 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id = db.Column(db.Integer, db.ForeignKey("post.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    text = db.Column(db.Text, nullable=False) 
+    text = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
