@@ -8,6 +8,68 @@
 </head>
 <body>
     <h1>Register Page</h1>
-    <a href="{{url_for('register')}}">Already have an account? Log In.</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            {% if category == 'success' %}
+            <p style="color: green;">{{ message }}</p>
+        {% else %}
+            <p style="color: red;">{{ message }}</p>
+        {% endif %}
+        
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <label for="name">Full Name:</label>
+        {{ form.name(size=32) }}
+        {% if form.name.errors %}
+            <span style="color: red;">{{ form.name.errors[0] }}</span>
+        {% endif %}
+        <br>
+
+        <label for="username">Username:</label>
+        {{ form.username(size=32) }}
+        {% if form.username.errors %}
+            <span style="color: red;">{{ form.username.errors[0] }}</span>
+        {% endif %}
+        <br>
+
+        <label for="phone">Phone:</label>
+        {{ form.phone(size=20) }}
+        {% if form.phone.errors %}
+            <span style="color: red;">{{ form.phone.errors[0] }}</span>
+        {% endif %}
+        <br>
+
+        <label for="email">Email:</label>
+        {{ form.email(size=32) }}
+        {% if form.email.errors %}
+            <span style="color: red;">{{ form.email.errors[0] }}</span>
+        {% endif %}
+        <br>
+
+        <label for="password">Password:</label>
+        {{ form.password(size=32) }}
+        {% if form.password.errors %}
+            <span style="color: red;">{{ form.password.errors[0] }}</span>
+        {% endif %}
+        <br>
+
+        <label for="confirm_password">Confirm Password:</label>
+        {{ form.confirm_password(size=32) }}
+        {% if form.confirm_password.errors %}
+            <span style="color: red;">{{ form.confirm_password.errors[0] }}</span>
+        {% endif %}
+        <br>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <a href="{{ url_for('login') }}">Already have an account? Log In.</a>
 </body>
 </html>
