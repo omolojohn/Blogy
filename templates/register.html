@@ -12,12 +12,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-            {% if category == 'success' %}
-            <p style="color: green;">{{ message }}</p>
-        {% else %}
-            <p style="color: red;">{{ message }}</p>
-        {% endif %}
-        
+                <p>{{ message }}</p>
             {% endfor %}
         {% endif %}
     {% endwith %}
@@ -25,51 +20,55 @@
     <form method="POST">
         {{ form.hidden_tag() }}
 
-        <label for="name">Full Name:</label>
-        {{ form.name(size=32) }}
+        <p for="name">
+        {{ form.name(size=32, placeholder="Enter your full name") }}
         {% if form.name.errors %}
-            <span style="color: red;">{{ form.name.errors[0] }}</span>
+            <span>{{ form.name.errors[0] }}</span>
         {% endif %}
-        <br>
+        </p>
 
-        <label for="username">Username:</label>
-        {{ form.username(size=32) }}
+        <p for="username">
+        {{ form.username(size=32, placeholder="Choose a username") }}
         {% if form.username.errors %}
-            <span style="color: red;">{{ form.username.errors[0] }}</span>
+            <span>{{ form.username.errors[0] }}</span>
         {% endif %}
-        <br>
+        </p>
 
-        <label for="phone">Phone:</label>
-        {{ form.phone(size=20) }}
+        <p for="phone">
+        {{ form.phone(size=20, placeholder="Enter phone number") }}
         {% if form.phone.errors %}
-            <span style="color: red;">{{ form.phone.errors[0] }}</span>
+            <span>{{ form.phone.errors[0] }}</span>
         {% endif %}
-        <br>
+        </p>
 
-        <label for="email">Email:</label>
-        {{ form.email(size=32) }}
+        <p for="email">
+        {{ form.email(size=32, placeholder="Enter your email") }}
         {% if form.email.errors %}
-            <span style="color: red;">{{ form.email.errors[0] }}</span>
+            <span>{{ form.email.errors[0] }}</span>
         {% endif %}
-        <br>
+        </p>
 
-        <label for="password">Password:</label>
-        {{ form.password(size=32) }}
+        <p for="password">
+        {{ form.password(size=32, placeholder="Enter a password") }}
         {% if form.password.errors %}
-            <span style="color: red;">{{ form.password.errors[0] }}</span>
+            <span>{{ form.password.errors[0] }}</span>
         {% endif %}
-        <br>
+        </p>
 
-        <label for="confirm_password">Confirm Password:</label>
-        {{ form.confirm_password(size=32) }}
+        <p for="confirm_password">
+        {{ form.confirm_password(size=32, placeholder="Confirm your password") }}
         {% if form.confirm_password.errors %}
-            <span style="color: red;">{{ form.confirm_password.errors[0] }}</span>
+            <span>{{ form.confirm_password.errors[0] }}</span>
         {% endif %}
-        <br>
+        </p>
 
         <button type="submit">Register</button>
     </form>
 
     <a href="{{ url_for('login') }}">Already have an account? Log In.</a>
+
+    <footer>
+        <p>&copy; 2025 Blogy</p>
+    </footer>
 </body>
 </html>

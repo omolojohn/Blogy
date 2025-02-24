@@ -1,17 +1,18 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_bcrypt import Bcrypt
 from server import create_app, db
 from server.forms import RegistrationForm
+from server.forms import LoginForm
 from server.models import User
 from config import Config
+from werkzeug.security import check_password_hash
+
 
 app = Flask(__name__, template_folder="templates")
 app.config.from_object(Config)
 
 db.init_app(app)
-bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)
 
 
@@ -24,14 +25,13 @@ def home():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         user = User(
             name=form.name.data,
             username=form.username.data,
             phone=form.phone.data,
             email=form.email.data,
-            password=hashed_password,
         )
+        user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
         flash("Account created successfully! Please log in.", "success")
@@ -39,10 +39,19 @@ def register():
     return render_template("register.html", form=form)
 
 
-@app.route("/login")
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.check_password(form.password.data):
+            session['user_id'] = user.id 
+            flash('Login successful!', 'success')
+            return redirect(url_for('post'))
 
+        flash("Invalid username or password.", "danger")
+
+    return render_template('login.html', form=form)
 
 @app.route("/post")
 def post():
@@ -52,4 +61,4 @@ def post():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5555)
