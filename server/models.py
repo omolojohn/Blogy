@@ -1,4 +1,4 @@
-from flask_login import UserMixin
+from flask_login import UserMixin, LoginManager
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from server import db
@@ -9,7 +9,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(256), nullable=False)  # Increased length for hashing
+    password = db.Column(db.String(256), nullable=False)
     profile_photo = db.Column(db.String(255), default="default.jpg")
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
@@ -53,3 +53,9 @@ class Comment(db.Model):
     text = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
+
+login_manager = LoginManager()
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))

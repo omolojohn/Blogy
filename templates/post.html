@@ -8,7 +8,36 @@
 </head>
 <body>
     <h1>Posts Page</h1>
-    <h2>Post Category</h2>
-    <h2>Comments</h2>
+
+    <h2>Create a Post</h2>
+    <form method="POST">
+        <p>Title:
+        <input type="text" name="title" required>
+        </p>
+        
+        <p>Category:
+        <select name="category" required>
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        </p>
+
+        <p>Content:
+        <textarea name="body" required></textarea>
+        </p>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>All Posts</h2>
+    {% for post in posts %}
+        <div>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.body }}</p>
+            <p>Category: {{ post.category.name }}</p>
+            <p>By User ID: {{ post.user_id }}</p>
+        </div>
+    {% endfor %}
 </body>
 </html>
